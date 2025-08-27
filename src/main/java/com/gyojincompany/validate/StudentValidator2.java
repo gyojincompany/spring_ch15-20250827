@@ -1,9 +1,10 @@
 package com.gyojincompany.validate;
 
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-public class StudentValidator implements Validator {
+public class StudentValidator2 implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) { //검증할 객체(studetnDto)의 클래스 타입 정보
@@ -25,10 +26,12 @@ public class StudentValidator implements Validator {
 			errors.rejectValue("id", "id가 공란입니다!"); //(에러가 발생한 필드 이름, 에러코드(메시지))
 		}
 		
-		if(pw.strip().isEmpty() || pw == null) { //두 조건 중에 한개라도 참이면 error
-			System.out.println("에러가 발생된 비밀번호 : " + pw);
-			errors.rejectValue("pw", "비밀번호가 공란입니다!"); //(에러가 발생한 필드 이름, 에러코드(메시지))
-		}
+//		if(pw.strip().isEmpty() || pw == null) { //두 조건 중에 한개라도 참이면 error
+//			System.out.println("에러가 발생된 비밀번호 : " + pw);
+//			errors.rejectValue("pw", "비밀번호가 공란입니다!"); //(에러가 발생한 필드 이름, 에러코드(메시지))
+//		}
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "pw", "비밀번호가 공란입니다!");
 		
 		if(age > 19 || age <0) { //나이가 19세 초과일 경우 학생회원 자격 없음->error, 나이값이 음수일 경우 error
 			errors.rejectValue("age", "19세 초과면 학생가입 불가능합니다!"); //(에러가 발생한 필드 이름, 에러코드(메시지))
